@@ -215,7 +215,8 @@ FunctionSpace{
 // ============
 Formulation {
   // Formulation for a Dirichlet boundary condition
-  { Name Helmholtz; Type FemEquation;
+  { Name Helmholtz; 
+    Type FemEquation;
     Quantity{
       { Name u ; Type Local; NameOfSpace H_grad;}
       // let us define also the normal derivative trace of u ("dn_u") and the
