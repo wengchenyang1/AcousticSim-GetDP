@@ -1,3 +1,11 @@
+# AcousticSim-GetDP: A Slimmed Version of GetDP for Acoustic Simulation
+
+This is a specialized version of GetDP, tailored specifically for acoustic simulation problems.
+
+GetDP's original README is given below:
+
+---
+
 This is GetDP, a General environment for the treatment of Discrete Problems.
 
 GetDP is copyright (C) 1997-2022 P. Dular and C. Geuzaine, University of Liege,
