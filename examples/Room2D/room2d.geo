@@ -1,6 +1,6 @@
 Include "param.geo";
 
-lc = 0.1;
+lc = 0.5;
 
 // Define the room corners
 Point(1) = {0, 0, 0, lc};
@@ -24,9 +24,16 @@ Line(8) = {8, 1};
 
 // Create a surface from the lines
 Line Loop(9) = {1, 2, 3, 4, 5, 6, 7, 8};
-Plane Surface(10) = {9};
+ind_surf = 1000;
+Plane Surface(ind_surf) = {9};
+
+// Define point source
+lc_src = 0.05
+Point(99999) = {X_source, Y_source, 0, lc_src};
+MeshSize {99999} = lc_src;
+Point{99999} In Surface{ind_surf};
 
 // Define the propagation domain
-Physical Surface(Ind_Propagation_Domain) = {10};
+Physical Surface(Ind_Propagation_Domain) = {ind_surf};
 
 Physical Curve(Ind_Walls) = {1, 2, 3, 4, 5, 6, 7, 8};

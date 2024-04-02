@@ -71,15 +71,13 @@ FunctionSpace {
 }
 
 Function {
-    X_source = 5;
-    Y_source = 4;
-    SourceAmplitude = 0.001; // Amplitude of the source
-    Sigma = 0.1; // Width of the Gaussian
+    SourceAmplitude = 1;
+    Sigma = 0.1;
     DiracSource[] = SourceAmplitude * (1-Fabs[Sqrt[(X[]-X_source)*(X[]-X_source) + (Y[]-Y_source)*(Y[]-Y_source)]]/Sigma);
 
     // Robin boundary condition: dp/dn + beta*p = g
     I[] = Complex[0., 1.] ; // sqrt(-1)
-    Robin_beta[] = I[] * k;
+    Robin_beta[] = I[] * k * 0.0;  // Set to zero to have Neumann boundary conditioin
     Robin_g[] = 0.0;
 }
 
