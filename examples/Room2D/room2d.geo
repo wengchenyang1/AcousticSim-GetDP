@@ -1,6 +1,4 @@
-Include "param.geo";
-
-lc = 0.5;
+Include "data.pro";
 
 // Define the room corners
 Point(1) = {0, 0, 0, lc};
@@ -27,13 +25,25 @@ Line Loop(9) = {1, 2, 3, 4, 5, 6, 7, 8};
 ind_surf = 1000;
 Plane Surface(ind_surf) = {9};
 
-// Define point source
-lc_src = 0.05
-Point(99999) = {X_source, Y_source, 0, lc_src};
-MeshSize {99999} = lc_src;
-Point{99999} In Surface{ind_surf};
-
 // Define the propagation domain
 Physical Surface(Ind_Propagation_Domain) = {ind_surf};
 
 Physical Curve(Ind_Walls) = {1, 2, 3, 4, 5, 6, 7, 8};
+
+// Define point source
+ind_src = 99999;
+Point(ind_src) = {X_source, Y_source, 0, lc};
+Field[1] = Distance;
+Field[1].PointsList = {ind_src};
+
+Field[2] = Threshold;
+Field[2].InField = 1;
+Field[2].SizeMin = Lc_source;
+Field[2].SizeMax = lc;
+Field[2].DistMin = Lc_source*5;
+Field[2].DistMax = Lc_source*90;
+
+// Use the minimum of all the fields as the background mesh size field
+Field[3] = Min;
+Field[3].FieldsList = {2};
+Background Field = 3;

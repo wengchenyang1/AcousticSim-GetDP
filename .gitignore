@@ -16,3 +16,6 @@ benchmarks_kst
 *.msh
 *~
 *#
+
+.vscode
+tmp/
