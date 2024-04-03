@@ -68,6 +68,7 @@ FunctionSpace {
 
 Function {
     SourceAmplitude = 1;
+
     Sigma = Lc_source*5;
     R_squared[] = (X[]-X_source)*(X[]-X_source) + (Y[]-Y_source)*(Y[]-Y_source);
     SoundSource[] = SourceAmplitude * Exp[-R_squared[] / (2 * Sigma^2)];
