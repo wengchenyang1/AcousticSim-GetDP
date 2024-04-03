@@ -1,7 +1,5 @@
 Include "data.pro";
 
-lc = 0.5;
-
 // Define the room corners
 Point(1) = {0, 0, 0, lc};
 Point(2) = {10, 0, 0, lc};
@@ -33,7 +31,6 @@ Physical Surface(Ind_Propagation_Domain) = {ind_surf};
 Physical Curve(Ind_Walls) = {1, 2, 3, 4, 5, 6, 7, 8};
 
 // Define point source
-lc_src = 0.03;
 ind_src = 99999;
 Point(ind_src) = {X_source, Y_source, 0, lc};
 Field[1] = Distance;
@@ -41,10 +38,10 @@ Field[1].PointsList = {ind_src};
 
 Field[2] = Threshold;
 Field[2].InField = 1;
-Field[2].SizeMin = lc_src;
+Field[2].SizeMin = Lc_source;
 Field[2].SizeMax = lc;
-Field[2].DistMin = lc_src*5;
-Field[2].DistMax = lc_src*40;
+Field[2].DistMin = Lc_source*5;
+Field[2].DistMax = Lc_source*90;
 
 // Use the minimum of all the fields as the background mesh size field
 Field[3] = Min;

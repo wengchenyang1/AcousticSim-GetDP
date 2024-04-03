@@ -4,7 +4,9 @@ https://onelab.info/onelab_wiki/index.php?title=Tutorial/Laplace_equation_with_N
 https://www.personal.reading.ac.uk/~sms03snc/fem_notes.pdf
  */
 
-Include "param.geo";
+Include "data.pro";
+
+k = 2*Pi*freq/c0;
 
 // =======
 // GROUPS
@@ -42,12 +44,6 @@ Integration {
 }
 }
 
-MENU_INPUT = "Input";
-DefineConstant[
-k = {1, Min 0.1, Step 0.1, Max 50,
-    Name StrCat[MENU_INPUT, "/1Wavenumber"]}
-];
-
 Constraint{
     //Dirichlet boundary condition
     { Name Dirichlet; Type Assign; Case{
@@ -72,11 +68,12 @@ FunctionSpace {
 
 Function {
     SourceAmplitude = 1;
-    Sigma = 0.1;
-    DiracSource[] = SourceAmplitude * (1-Fabs[Sqrt[(X[]-X_source)*(X[]-X_source) + (Y[]-Y_source)*(Y[]-Y_source)]]/Sigma);
+    Sigma = Lc_source*5;
+    R_squared[] = (X[]-X_source)*(X[]-X_source) + (Y[]-Y_source)*(Y[]-Y_source);
+    SoundSource[] = SourceAmplitude * Exp[-R_squared[] / (2 * Sigma^2)];
 
     // Robin boundary condition: dp/dn + beta*p = g
-    I[] = Complex[0., 1.] ; // sqrt(-1)
+    I[] = Complex[0., 1.]; // sqrt(-1)
     Robin_beta[] = I[] * k * 0.0;  // Set to zero to have Neumann boundary conditioin
     Robin_g[] = 0.0;
 }
@@ -99,7 +96,7 @@ Equation {
 	    In PropDomain; Jacobian JVol; Integration I1;}
     Galerkin{ [-k^2*Dof{u}, {u}];
 	    In PropDomain; Jacobian JVol; Integration I1;}
-    Galerkin{ [-DiracSource[], {u}];
+    Galerkin{ [-SoundSource[], {u}];
         In PropDomain; Jacobian JVol; Integration I1;}
     Galerkin {[Robin_beta[]*Dof{u}, {u}];
         In Wall; Jacobian JSur; Integration I1;}
