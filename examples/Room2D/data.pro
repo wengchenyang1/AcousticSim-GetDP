@@ -8,14 +8,13 @@ damping = 0.0006, // At 1000Hz
 // Source location
 Y_source = 4.0,
 X_source = 5.0,
-Lc_source = 0.01,
 // Geo:
 Ind_Propagation_Domain = 100001,
 Ind_Walls = 200003,
 // Mesh
-N_pt_per_lambda = 10
-Max_lc = 0.5
-Min_lc = 0.03
+Lc_source = 0.01,
+N_pt_per_lambda = 15,
+Max_lc = 0.3
 ];
 
 lambda = c0 / freq;
@@ -23,8 +22,8 @@ lc = lambda / N_pt_per_lambda;
 If(lc > Max_lc)
     lc = Max_lc;
 EndIf
-If(lc < Min_lc)
-    lc = Min_lc;
+If(lc < Lc_source)
+    lc = Lc_source;
 EndIf
 
 

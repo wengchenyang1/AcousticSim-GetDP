@@ -76,6 +76,9 @@ Function {
     I[] = Complex[0., 1.]; // sqrt(-1)
     Robin_beta[] = I[] * k * 0.0;  // Set to zero to have Neumann boundary conditioin
     Robin_g[] = 0.0;
+
+    Kc[] = Complex[k, -damping];
+    K2[] = Kc[] * Kc[];
 }
 
 // ============
@@ -94,7 +97,7 @@ Equation {
     //Helmholtz equation
     Galerkin{ [Dof{Grad u}, {Grad u}];
 	    In PropDomain; Jacobian JVol; Integration I1;}
-    Galerkin{ [-k^2*Dof{u}, {u}];
+    Galerkin{ [-K2[]*Dof{u}, {u}];
 	    In PropDomain; Jacobian JVol; Integration I1;}
     Galerkin{ [-SoundSource[], {u}];
         In PropDomain; Jacobian JVol; Integration I1;}
