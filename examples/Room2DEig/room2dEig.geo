@@ -4,10 +4,10 @@ Include "data.pro";
 Point(1) = {0, 0, 0, lc};
 Point(2) = {10, 0, 0, lc};
 Point(3) = {10, 5, 0, lc};
-Point(4) = {7, 5, 0, lc};
+Point(4) = {10, 8, 0, lc};
 Point(5) = {7, 8, 0, lc};
 Point(6) = {3, 8, 0, lc};
-Point(7) = {3, 5, 0, lc};
+Point(7) = {0, 8, 0, lc};
 Point(8) = {0, 5, 0, lc};
 
 // Connect the corners with lines
@@ -29,3 +29,5 @@ Plane Surface(ind_surf) = {9};
 Physical Surface(Ind_Propagation_Domain) = {ind_surf};
 
 Physical Curve(Ind_Walls) = {1, 2, 3, 4, 5, 6, 7, 8};
+
+Physical Point(Ind_PrintPoint) = {1};   // Printpoint

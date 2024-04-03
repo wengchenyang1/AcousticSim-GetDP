@@ -13,6 +13,7 @@ Include "data.pro" ;
 Group {
   PropDomain = Region[Ind_Propagation_Domain];
   Wall = Region[Ind_Walls];
+  PrintPoint = Region[Ind_PrintPoint];
 }
 
 Jacobian {
@@ -20,6 +21,7 @@ Jacobian {
     Case {
       { Region Wall ; Jacobian Sur ; }
       { Region PropDomain ; Jacobian Vol ; }
+      { Region PrintPoint ; Jacobian Sur ; }
     }
   }
 }
@@ -64,6 +66,10 @@ Formulation {
   }
 }
 
+Function{
+  eigfilter = 1e-3;
+  EigFilter[] = (Norm[$EigenvalueReal] > eigfilter);
+}
 Resolution {
    { Name Reso ;
     System {
@@ -74,7 +80,7 @@ Resolution {
     Operation {
       CreateDir["output/"] ;
       GenerateSeparate[A] ;
-      EigenSolve[A, NbEigenvalues, EigenvalShiftRe, EigenvalShiftIm] ;
+      EigenSolve[A, NbEigenvalues, EigenvalShiftRe, EigenvalShiftIm, EigFilter[]] ;
       SaveSolutions[A] ;
     }
   }
@@ -84,7 +90,7 @@ PostProcessing {
   { Name PostPro ; NameOfFormulation Helmholtz ;
     Quantity {
       {Name p ; Value{ Local{ [{u}] ; In PropDomain ; Jacobian Jac; } } }
-      {Name pNorm; Value {Local { [Norm[{u}]] ; In PropDomain; Jacobian Jac; }}}
+      {Name eigFreq;  Value { Local{ [$EigenvalueReal*c0/2/Pi]; In PrintPoint; Jacobian Jac; } } }
     }
   }
 }
@@ -95,7 +101,7 @@ PostOperation {
       For n In {0:(NbEigenvalues-1)}
         Print [ p, OnElementsOf PropDomain, TimeStep{n}, File StrCat["output/eigenvector",Sprintf("%g",n),".pos"]];
       EndFor
-      SendMergeFileRequest[ "main.pro.opt" ] ;
+      Print [eigFreq, OnElementsOf PrintPoint, Format TimeTable, File "output/EigenValuesReal.pos"];
     }
   }
 }
