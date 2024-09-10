@@ -90,6 +90,7 @@ PostProcessing {
   { Name PostPro ; NameOfFormulation Helmholtz ;
     Quantity {
       {Name p ; Value{ Local{ [{u}] ; In PropDomain ; Jacobian Jac; } } }
+      {Name pNorm; Value {Local { [Norm[{u}]] ; In PropDomain; Jacobian Jac; }}}
       {Name eigFreq;  Value { Local{ [$EigenvalueReal*c0/2/Pi]; In PrintPoint; Jacobian Jac; } } }
     }
   }
@@ -99,7 +100,7 @@ PostOperation {
   { Name PostOp ; NameOfPostProcessing PostPro ;
     Operation {
       For n In {0:(NbEigenvalues-1)}
-        Print [ p, OnElementsOf PropDomain, TimeStep{n}, File StrCat["output/eigenvector",Sprintf("%g",n),".pos"]];
+        Print [ pNorm, OnElementsOf PropDomain, TimeStep{n}, File StrCat["output/eigenvector.abs",Sprintf("%g",n),".pos"]];
       EndFor
       Print [eigFreq, OnElementsOf PrintPoint, Format TimeTable, File "output/EigenValuesReal.pos"];
     }

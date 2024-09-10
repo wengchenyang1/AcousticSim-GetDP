@@ -1,7 +1,7 @@
 DefineConstant[
 c0 = 343.0,
-freqMin = 50,
-freqMax = 200,
+freqMin = 30,
+freqMax = 100,
 // Geo:
 Ind_Propagation_Domain = 100001,
 Ind_Walls = 200003,
@@ -10,7 +10,7 @@ Ind_PrintPoint = 7777,
 N_pt_per_lambda = 15,
 Max_lc = 0.3,
 
-NbEigenvalues = 5,
+NbEigenvalues = 35,
 EigenvalShiftRe = (freqMin*2*Pi/c0)^2,
 EigenvalShiftIm = 0
 ];
